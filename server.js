@@ -1,17 +1,12 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require("cors");
+const Cors = require("cors");
 const dbConfig = require("./config/db.config");
 const connection_url = 'mongodb+srv://admin:vanliberte1@cluster-vanliberte.9r3n3.mongodb.net/vanlibertedb?retryWrites=true&w=majority';
 
 const app = express();
 
-var corsOptions = {
-  origin: "http://localhost:8081"
-};
-
-app.use(cors(corsOptions));
-
+app.use(Cors());
 // parse requests of content-type - application/json
 app.use(express.json());
 
@@ -39,7 +34,7 @@ db.mongoose
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+  res.json({ message: "Hello World" });
 });
 
 // routes
