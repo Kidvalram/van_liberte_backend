@@ -60,3 +60,76 @@ exports.getDates = (req, res) => {
     });
     
 };
+
+exports.deleteDates = (req, res) => {
+    //console.log(req.body.date);
+
+    var arrayDate = req.body.date;
+    var iError = false;
+
+    const date = new dbDate({
+        date: req.body.date,
+    });
+
+    arrayDate.forEach(date => {
+
+        const db_date = new dbDate({
+            date: date,
+        });
+
+        dbDate.findOneAndDelete({ date: db_date.date }, function (err) {
+            if (!err) {
+                iError = false; 
+            } else {
+                iError = true;
+            }
+        });
+    
+    });
+
+    if(iError){
+        //console.log('dates no updated');
+        res.status(401).send('dates were not delated');
+    }else{
+        //console.log('dates updated');
+        res.status(200).send('dates delated');
+    }
+
+}
+
+exports.setDates = (req, res) => {
+    //console.log(req.body.date);
+
+    var arrayDate = req.body.date;
+    var iError = false;
+
+    arrayDate.forEach(date => {
+
+        const db_date = new dbDate({
+            date: date,
+        });
+
+        dbDate.findOneAndUpdate({date: date.date}, date, function(error, result) {
+            if (!error) {
+                // If the document doesn't exist
+                // Save the document
+
+                db_date.save(function(error) {
+                    if (!error) {
+                        iError = false; 
+                    } else {
+                        iError = true;
+                    }
+                });
+            }
+        });
+    });
+
+    if(iError){
+        //console.log('dates no updated');
+        res.status(401).send('dates no updated');
+    }else{
+        //console.log('dates updated');
+        res.status(200).send('dates updated');
+    }
+};

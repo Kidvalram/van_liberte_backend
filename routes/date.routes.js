@@ -21,4 +21,12 @@ module.exports = function(app) {
 
   app.post("/api/dates/getDates", controller.getDates);
 
+  app.post("/api/dates/setDates", 
+  [authJwt.verifyToken, authJwt.isAdmin],
+  controller.setDates);
+
+  app.post("/api/dates/deleteDates", 
+  [authJwt.verifyToken, authJwt.isAdmin],
+  controller.deleteDates);
+
 };
